@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Homepage
+{% endblock %}
+
+
+{% block main %}
+    <h1>Posts:</h1>
+
+    {% if posts %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in posts %}
+        <tr>
+          <td>
+            <a class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{{ url_for('diary_app.details', post_id=post.id) }}"
+             >
+             {{ post.title }}
+            </a>
+          </td>
+          <td>{{ post.content }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+        <h2>No posts yet</h2>
+    {% endif %}
+
+    <div id="links-block">
+        <a class="text-bold" href="{{ url_for('diary_app.create') }}">Add a new post</a>
+    </div>
+
+{% endblock %}

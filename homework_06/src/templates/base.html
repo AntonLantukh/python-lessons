@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    {% block title %}
+      Base Title
+    {% endblock %}
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+  >
+  {% block head %}
+
+  {% endblock %}
+</head>
+<body>
+<main>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Diary</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% for endpoint, title in [
+                              ('diary_app.list', 'Home page'),
+                              ('diary_app.create', 'Create post'),
+                            ] %}
+
+              {% set path = url_for(endpoint) %}
+              {% set is_current_path = path == request.path %}
+
+              <li class="nav-item">
+                <a
+                  class="nav-link {{ 'active' if is_current_path }}"
+                  aria-current="page"
+                  href="{{ path }}"
+                >{{ title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block main %}
+      Base body
+    {% endblock %}
+  </div>
+</main>
+</body>
+</html>

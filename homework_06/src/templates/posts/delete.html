@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Delete post #{{ post.id }}
+{% endblock %}
+
+{% block main %}
+	<h1>Delete post #{{ post.id }} {{ post.name }}</h1>
+
+  <div>Are you sure you want to delete this post?</div>
+  <form method="post">
+    <input class="btn btn-danger" type="submit" value="Delete">
+  </form>
+
+  <br>
+  <div>
+    <a href="{{ url_for('diary_app.details', post_id=post.id) }}"
+    >Back to posts list</a>
+  </div>
+{% endblock %}

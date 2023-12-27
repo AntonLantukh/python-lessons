@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Post #{{ post.id }} details
+{% endblock %}
+
+{% block main %}
+  <h1>Post #{{ post.id }}</h1>
+  <h2>{{ post.title }}</h2>
+
+  <br>
+  <p>
+    {{ post.content }}
+  <br>
+  <div>
+    <a href="{{ url_for('diary_app.delete', post_id=post.id) }}">
+        Delete post
+    </a>
+    <a href="{{ url_for('diary_app.list') }}">
+        Back to posts list
+    </a>
+  </div>
+{% endblock %}
