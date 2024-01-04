@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}
+  Your tasks
+{% endblock title %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <div class="row align-items-baseline">
+      <h1 class="mb-5 col-10">My tasks</h1>
+      <a role="button"
+         class="btn btn-success col"
+         href="{% url "tasks:create" %}">Create new task</a>
+    </div>
+    <div class="mb-5">
+      <h2 class="mb-3">Unfinished tasks</h2>
+      {% if unfinished_tasks %}
+        <div class="row g-3">
+          {% for task in unfinished_tasks %}
+            <div class="card col-5 me-3">
+              <div class="card-body row">
+                <div class="col-1">
+                  <form class="uncompleted_tasks_form"
+                        method="post"
+                        action="{% url "tasks:complete" task_id=task.id %}">
+                    {% csrf_token %}
+                    <input name="complete_task" class="form-check-input" type="checkbox" onInput />
+                  </form>
+                </div>
+                <div class="col-8">
+                  <h5 class="card-title">{{ task.title }}</h5>
+                  <p class="card-text">{{ task.description }}</p>
+                  <p class="card-text">
+                    <i>Due to {{ task.close_date }}</i>
+                  </p>
+                  <a href="{% url "tasks:delete" task_id=task.id %}"
+                     class="btn btn-danger">Delete task</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        No unfinished tasks yet
+      {% endif %}
+    </div>
+    <div class="mb-5">
+      <h2 class="mb-3">Finished tasks</h2>
+      {% if finished_tasks %}
+        <div class="row g-3">
+          {% for task in finished_tasks %}
+            <div class="card col-5 me-3">
+              <div class="card-body row">
+                <div class="col-1">
+                  <form class="completed_tasks_form"
+                        method="post"
+                        action="{% url "tasks:uncomplete" task_id=task.id %}">
+                    {% csrf_token %}
+                    <input name="uncomplete_task"
+                           class="form-check-input"
+                           type="checkbox"
+                           checked />
+                  </form>
+                </div>
+                <div class="col-8">
+                  <h5 class="card-title">{{ task.title }}</h5>
+                  <p class="card-text">{{ task.description }}</p>
+                  <a href="{% url "tasks:delete" task_id=task.id %}"
+                     class="btn btn-danger">Delete task</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        No finished tasks yet
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}
+{% block js %}
+  <script type="module" src="{% static 'js/tasks.js' %}"></script>
+{% endblock js %}

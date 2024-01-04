@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+    Home
+{% endblock title %}
+{% load static %}
+{% block content %}
+    <div class="container w-300 m-auto">
+        <div class="px-4 pt-5 my-5 text-center border-bottom">
+            <h1 class="display-4 fw-bold text-body-emphasis">Tasks manager</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">Quickly create and edit your tasks.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                    <a role="button"
+                       class="btn btn-primary me-2"
+                       href="{% url "tasks:list" %}">Go to my tasks</a>
+                </div>
+            </div>
+            <div class="overflow-hidden">
+                <div class="container px-5">
+                    <img class="logo"
+                         src="{% static 'img/tasks.jpg' %}"
+                         alt="tasks"
+                         width="600"
+                         height="300" />
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
