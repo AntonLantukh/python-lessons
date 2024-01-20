@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="TODO application" />
+        <meta name="keywords" content="todo,app,tasks" />
+        <title>
+            {% block title %}
+                Base title
+            {% endblock title %}
+        </title>
+        <link rel="stylesheet"
+              type="text/css"
+              href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+        {% block styles %}
+        {% endblock styles %}
+    </head>
+    <body>
+        <header class="p-3 text-bg-dark">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="{% url "home" %}"
+                       class="logo d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <img class="logo"
+                             src="{% static 'img/logo.svg' %}"
+                             alt="logo"
+                             width="36"
+                             height="36" />
+                    </a>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li>
+                            <a href="{% url "home" %}" class="nav-link px-2 text-white">Home</a>
+                        </li>
+                        <li>
+                            <a href="{% url "about" %}" class="nav-link px-2 text-white">About</a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url "user:sign_out" %}" class="gy-2">
+                            {% csrf_token %}
+                            <button role="button"
+                                    class="btn btn-outline-light me-2"
+                                    href="{% url "user:sign_out" %}">Sign Out</button>
+                        </form>
+                    {% else %}
+                        <div class="text-end">
+                            <a role="button"
+                               class="btn btn-outline-light me-2"
+                               href="{% url "user:sign_in" %}">Sign In</a>
+                            <a role="button" class="btn btn-warning" href="{% url "user:sign_up" %}">Sign Up</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="alert alert-success" role="alert">{{ message }}</div>
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-error" role="alert">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <main class="container mt-4">
+            {% block content %}
+                Base content
+            {% endblock content %}
+        </main>
+        {% block js %}
+        {% endblock js %}
+    </body>
+</html>
