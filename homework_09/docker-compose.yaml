@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  web:
+    build:
+      dockerfile: ./Dockerfile
+    depends_on:
+      - nginx
+    volumes:
+      - uwsgi:/tmp/uwsgi
+      - ./src/templates:/app/templates
+      - ./src/static:/app/static
+      - static_volume:/app/static
+
+  nginx:
+      build: ./nginx
+      ports:
+        - 80:80
+      volumes:
+        - uwsgi:/tmp/uwsgi
+        - static_volume:/app/static
+
+volumes:
+  static_volume:
+  uwsgi:

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.timezone import make_aware
 
 from django.views.generic import (
     ListView,
@@ -13,7 +14,7 @@ from django.views.generic import (
 )
 from .models import Task
 from .forms import TaskForm
-import datetime
+from datetime import datetime
 
 
 class TasksListView(LoginRequiredMixin, ListView):
@@ -61,7 +62,7 @@ class TasksCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         date = form.cleaned_data["date"]
         time = form.cleaned_data["time"]
 
-        close_date = datetime.datetime.combine(date, time)
+        close_date = make_aware(datetime.combine(date, time))
 
         form.instance.close_date = close_date  # type: ignore
         form.instance.user = self.request.user  # type: ignore
